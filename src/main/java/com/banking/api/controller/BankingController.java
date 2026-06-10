@@ -12,34 +12,18 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-package com.banking.api.controller;
-
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
-
-@RestController
-public class HomeController {
-
-    @GetMapping("/")
-    @Operation(summary = "Accueil Racine", description = "Message de bienvenue à la racine de l'API")
-    public String index() {
-        return "Bienvenue sur l'API de gestion bancaire ! Pour voir les comptes, allez sur /comptes";
-    }
-}
-
 /**
  * Contrôleur REST — équivalent des endpoints @app.get / @app.post / @app.delete de FastAPI.
  *
  * Correspondance des routes :
- * GET    /                                     → home()
- * POST   /comptes                              → creer_compte()
- * GET    /comptes                              → lister_comptes()
- * GET    /comptes/{numeroCompte}               → consulter_compte()
- * DELETE /comptes/{numeroCompte}               → supprimer_compte()
+ * POST   /comptes                              → creerCompte()
+ * GET    /comptes                              → listerComptes()
+ * GET    /comptes/{numeroCompte}               → consulterCompte()
+ * DELETE /comptes/{numeroCompte}               → supprimerCompte()
  * POST   /comptes/{numeroCompte}/depot         → depot()
  * POST   /comptes/{numeroCompte}/retrait       → retrait()
  * POST   /comptes/{numeroCompte}/virement      → virement()
- * GET    /comptes/{numeroCompte}/transactions  → historique_transactions()
+ * GET    /comptes/{numeroCompte}/transactions  → historiqueTransactions()
  */
 @RestController
 @RequestMapping("/comptes")
@@ -52,15 +36,7 @@ public class BankingController {
         this.bankingService = bankingService;
     }
 
-    // ─── Route d'accueil Racine (Évite l'erreur Whitelabel 404) ────────────────
-
-    @GetMapping(path = "/")
-    @Operation(summary = "Accueil API", description = "Vérifie l'état de fonctionnement de la racine de l'API")
-    public String home() {
-        return "Bienvenue sur l'API de gestion bancaire ! L'application Spring Boot déployée sur Render fonctionne correctement.";
-    }
-
-    // ─── Comptes ──────────────────────────────────────────────────────────────
+    // === Comptes ===
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
@@ -87,7 +63,7 @@ public class BankingController {
         return bankingService.supprimerCompte(numeroCompte);
     }
 
-    // ─── Transactions ─────────────────────────────────────────────────────────
+    // === Transactions ===
 
     @PostMapping("/{numeroCompte}/depot")
     @Operation(summary = "Dépôt", description = "Effectue un dépôt sur un compte")
