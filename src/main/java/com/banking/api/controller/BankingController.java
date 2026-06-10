@@ -12,6 +12,21 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+package com.banking.api.controller;
+
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+public class HomeController {
+
+    @GetMapping("/")
+    @Operation(summary = "Accueil Racine", description = "Message de bienvenue à la racine de l'API")
+    public String index() {
+        return "Bienvenue sur l'API de gestion bancaire ! Pour voir les comptes, allez sur /comptes";
+    }
+}
+
 /**
  * Contrôleur REST — équivalent des endpoints @app.get / @app.post / @app.delete de FastAPI.
  *
