@@ -16,14 +16,15 @@ import java.util.List;
  * Contrôleur REST — équivalent des endpoints @app.get / @app.post / @app.delete de FastAPI.
  *
  * Correspondance des routes :
- *   POST   /comptes                              → creer_compte()
- *   GET    /comptes                              → lister_comptes()
- *   GET    /comptes/{numeroCompte}               → consulter_compte()
- *   DELETE /comptes/{numeroCompte}               → supprimer_compte()
- *   POST   /comptes/{numeroCompte}/depot         → depot()
- *   POST   /comptes/{numeroCompte}/retrait       → retrait()
- *   POST   /comptes/{numeroCompte}/virement      → virement()
- *   GET    /comptes/{numeroCompte}/transactions  → historique_transactions()
+ * GET    /                                     → home()
+ * POST   /comptes                              → creer_compte()
+ * GET    /comptes                              → lister_comptes()
+ * GET    /comptes/{numeroCompte}               → consulter_compte()
+ * DELETE /comptes/{numeroCompte}               → supprimer_compte()
+ * POST   /comptes/{numeroCompte}/depot         → depot()
+ * POST   /comptes/{numeroCompte}/retrait       → retrait()
+ * POST   /comptes/{numeroCompte}/virement      → virement()
+ * GET    /comptes/{numeroCompte}/transactions  → historique_transactions()
  */
 @RestController
 @RequestMapping("/comptes")
@@ -34,6 +35,14 @@ public class BankingController {
 
     public BankingController(BankingService bankingService) {
         this.bankingService = bankingService;
+    }
+
+    // ─── Route d'accueil Racine (Évite l'erreur Whitelabel 404) ────────────────
+
+    @GetMapping(path = "/")
+    @Operation(summary = "Accueil API", description = "Vérifie l'état de fonctionnement de la racine de l'API")
+    public String home() {
+        return "Bienvenue sur l'API de gestion bancaire ! L'application Spring Boot déployée sur Render fonctionne correctement.";
     }
 
     // ─── Comptes ──────────────────────────────────────────────────────────────
